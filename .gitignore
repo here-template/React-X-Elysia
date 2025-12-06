@@ -3,4 +3,8 @@ node_modules/
 .env
 
 #Frontend
+build/
 .react-router/
+
+#Backend
+dist/
