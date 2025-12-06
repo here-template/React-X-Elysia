@@ -1,15 +1,22 @@
 import { Elysia } from "elysia";
-import { demo } from "./modules/demo";
 import { cors } from "@elysiajs/cors";
+import { autoload } from "elysia-autoload";
 
 const app = new Elysia()
   .use(cors())
-  .use(demo)
-  .get("/", () => "Hello Elysia")
-  .listen(3000);
+  .use(await autoload({
+    types: {
+      useExport: true
+    }
+  }))
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+await app.modules
+
+
+app.listen(3000, () => {
+  console.log(
+    `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}\n${app.routes.map((x) => x.path).join("\n")}`
+  );
+});
 
 export type App = typeof app;
