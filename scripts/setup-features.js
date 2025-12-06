@@ -5,7 +5,11 @@ const path = require('path');
 const FEATURES = {
   i18n: {
     module: 'frontend',
-    branch: 'extras/i18n',
+    branch: 'extras/i18n'
+  },
+  autoload: {
+    module: 'backend',
+    branch: 'extras/elysia-autoload'
   },
 };
 
