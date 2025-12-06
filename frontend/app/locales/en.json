@@ -1,0 +1,27 @@
+{
+  "menu": {
+    "home": "Home",
+    "about": "About"
+  },
+  "home": {
+    "title": "React-X-Elysia",
+    "subtitle": "High-performance full-stack template with separated hosting architecture.",
+    "version": "v1.0.0 Template",
+    "inputPlaceholder": "Enter your name...",
+    "greetingFrom": "from",
+    "error": "Are you sure the backend is running? Please check the README."
+  },
+  "about": {
+    "title": "About the Stack",
+    "description": "This template leverages a modern, high-performance architecture designed for scalability and redundancy. By decoupling the frontend from the backend, we ensure robustness and flexibility.",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "frontendStack": "React 19 + React Router v7",
+    "backendStack": "Elysia + Bun"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error"
+  }
+}
+

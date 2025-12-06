@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { Route } from "./+types/home";
 import { GlassInput } from "../components/GlassInput";
 import client from "../libs/client";
@@ -11,6 +12,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const { t } = useTranslation();
   const [greeting, setGreeting] = useState<{ message: string; from: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -29,11 +31,11 @@ export default function Home() {
         setGreeting(data);
       } else if (apiError) {
         console.error("Error fetching greeting:", apiError);
-        setError("Are you sure the backend is running? Please check the README.");
+        setError(t("home.error"));
       }
     } catch (err) {
       console.error("Unexpected error:", err);
-      setError("Are you sure the backend is running? Please check the README.");
+      setError(t("home.error"));
     } finally {
       setLoading(false);
     }
@@ -44,13 +46,13 @@ export default function Home() {
       <div className="max-w-3xl w-full text-center space-y-12">
         <div className="space-y-8">
           <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-gray-100/50 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-sm font-medium border border-black/5 dark:border-white/10 backdrop-blur-md">
-            v1.0.0 Template
+            {t("home.version")}
           </div>
           <h1 className="text-6xl font-bold tracking-tight text-gray-900 dark:text-white">
-            React-X-Elysia
+            {t("home.title")}
           </h1>
           <p className="text-2xl text-gray-600 dark:text-gray-300">
-            High-performance full-stack template with separated hosting architecture.
+            {t("home.subtitle")}
           </p>
         </div>
 
@@ -66,7 +68,7 @@ export default function Home() {
                   {greeting.message}
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  from: {greeting.from}
+                  {t("home.greetingFrom")}: {greeting.from}
                 </p>
               </div>
             )}

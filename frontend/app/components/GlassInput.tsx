@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface GlassInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onGreet: (name: string) => void;
 }
 
 export function GlassInput({ onGreet, ...props }: GlassInputProps) {
+  const { t } = useTranslation();
   const [value, setValue] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -22,7 +24,7 @@ export function GlassInput({ onGreet, ...props }: GlassInputProps) {
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Enter your name..."
+          placeholder={t("home.inputPlaceholder")}
           className="
             w-full 
             rounded-2xl 
