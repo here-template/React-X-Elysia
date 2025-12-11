@@ -1,0 +1,72 @@
+name: Auto-merge main to extras branches
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  merge-to-extras:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Get all extras branches
+        id: get-branches
+        run: |
+          git fetch origin
+          BRANCHES=$(git branch -r | grep 'origin/extras/' | sed 's/origin\///' | tr '\n' ' ')
+          echo "branches=$BRANCHES" >> $GITHUB_OUTPUT
+          echo "Found branches: $BRANCHES"
+
+      - name: Merge main into extras branches
+        run: |
+          BRANCHES="${{ steps.get-branches.outputs.branches }}"
+          if [ -z "$BRANCHES" ]; then
+            echo "No extras branches found"
+            exit 0
+          fi
+          
+          for branch in $BRANCHES; do
+            echo "Processing branch: $branch"
+            
+            # Checkout the branch
+            git checkout -b $branch origin/$branch 2>/dev/null || git checkout $branch
+            git pull origin $branch || true
+            
+            # Check if main is already merged
+            if git merge-base --is-ancestor origin/main HEAD; then
+              echo "$branch is already up to date with main"
+              git checkout main
+              continue
+            fi
+            
+            # Try to merge main
+            if git merge origin/main --no-edit -m "chore: auto-merge main into $branch"; then
+              echo "✅ Successfully merged main into $branch"
+              if git push origin $branch; then
+                echo "✅ Successfully pushed $branch"
+              else
+                echo "❌ Failed to push $branch"
+              fi
+            else
+              echo "⚠️ Merge conflict in $branch, skipping..."
+              git merge --abort || true
+            fi
+            
+            # Return to main branch
+            git checkout main || true
+          done
+
