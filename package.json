@@ -1,6 +1,5 @@
 {
   "name": "react-x-elysia",
-  "module": "index.ts",
   "type": "module",
   "workspaces": [
     "frontend",
