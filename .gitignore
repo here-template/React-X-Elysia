@@ -8,3 +8,7 @@ build/
 
 #Backend
 dist/
+
+#IDE
+.vscode/
+.idea/
