@@ -9,7 +9,7 @@
   "dependencies": {
     "@elysiajs/eden": "^1.4.8",
     "@react-router/node": "7.10.1",
-    "@react-router/serve": "7.10.1",
+    "@react-router/serve": "7.13.2",
     "backend": "workspace:*",
     "framer-motion": "^12.23.25",
     "isbot": "^5.1.31",
